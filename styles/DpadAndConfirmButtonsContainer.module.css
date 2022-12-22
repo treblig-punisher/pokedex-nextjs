@@ -1,0 +1,28 @@
+.DpadAndConfirmButtonsContainer{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    justify-content: space-evenly;
+    align-items: flex-end;
+    translate: 0 305px;
+    /* bottom: 120px; */
+    gap: 100px;
+    /* outline: solid 4px rgb(191, 0, 255); */
+}
+
+.Dpad{
+
+}
+.DpadAndConfirmButtonsContainer div{
+    transition: scale 0.1s;
+}
+.DpadAndConfirmButtonsContainer div:first-child{
+    translate: 0 -15px;
+}
+.DpadAndConfirmButtonsContainer div:hover{
+    scale: 0.8;
+    cursor: pointer;
+}
+

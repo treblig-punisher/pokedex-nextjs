@@ -1,0 +1,12 @@
+.pokedexContainer{
+    display: flex;
+    /* position: relative; */
+    margin-inline: auto;
+    /* justify-content: center; */
+    width: fit-content;
+    height: 430px;
+    translate: 0 100px;
+    
+    transition: scale 0.1s ease;
+}
+

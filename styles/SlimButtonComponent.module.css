@@ -1,0 +1,26 @@
+.buttonsContainer{
+    display: flex;
+    position: absolute;
+    width: 100%;
+    /* justify-content:; */
+    gap: 20px;
+    translate: 95px 310px;
+
+}
+.buttonComponent{
+    display: flex;
+
+    --redColor: rgb(249, 54, 54);
+    --blueColor: rgb(49, 49, 241);
+    --buttonColor: var(--blueColor);
+    height: 5px;
+    width: 40px;
+    background-color: var(--buttonColor);
+    /* box-shadow: 0px 0px 4px black; */
+    outline: rgb(102, 20, 20) solid 2px;
+    border-radius: 20px;
+}
+
+.buttonComponent:first-child{
+    --buttonColor: var(--redColor);
+}
