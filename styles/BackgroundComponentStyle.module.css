@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     width: 296px;
-    scale: 1.2;
+    scale: 1;
     /* height: 600px; */
     filter: none;
     /* height: fit-content */   
@@ -24,9 +24,37 @@
     height: var(--containerHeight); 
     /* outline: solid aqua 2px; */
     /* z-index: 100; */
+
     transform: translate(calc(var(--containerWidth) / 2), calc(var(--containerHeight) - 10px ));
 }
-
+.pokemonType{
+    display: flex;
+    position: absolute;
+}
+@keyframes animatedPokemonName{
+    0%{
+       opacity: 0;
+    }
+    100%{
+        opacity: 100;
+    }
+}
+.pokemonDisplayContainer img{
+    animation-name: animatedPokemonName;
+    animation-duration: 1s;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+.pokemonName{
+    display: flex;
+    position: absolute;
+    align-self: flex-end;
+    color: aqua;
+    font-weight: bold;
+    animation-name: animatedPokemonName;
+    animation-duration: 1s;
+    user-select: none;
+}
 .greenScreen{
     display: flex;
     position: absolute;

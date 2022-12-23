@@ -1,3 +1,12 @@
+
+@keyframes verticalSlideAnimation{
+    0%{
+        translate: 0 0px;
+    }
+    100%{
+        translate: 0 40%;
+    }
+}
 .pokedexContainer{
     display: flex;
     /* position: relative; */
@@ -5,8 +14,12 @@
     /* justify-content: center; */
     width: fit-content;
     height: 430px;
-    translate: 0 100px;
+    /* translate: 0 200px; */
     
     transition: scale 0.1s ease;
+    animation-name: verticalSlideAnimation;
+    animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+    animation-fill-mode: forwards;
+    animation-duration: 1s;
 }
 

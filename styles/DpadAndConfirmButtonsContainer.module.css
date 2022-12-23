@@ -13,16 +13,17 @@
 }
 
 .Dpad{
-
+    user-select: none;
 }
+
 .DpadAndConfirmButtonsContainer div{
     transition: scale 0.1s;
 }
 .DpadAndConfirmButtonsContainer div:first-child{
     translate: 0 -15px;
 }
-.DpadAndConfirmButtonsContainer div:hover{
+/* .DpadAndConfirmButtonsContainer div:hover{
     scale: 0.8;
     cursor: pointer;
-}
+} */
 
