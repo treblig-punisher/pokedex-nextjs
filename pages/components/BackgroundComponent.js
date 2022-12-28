@@ -1,9 +1,7 @@
 import styles from '/styles/BackgroundComponentStyle.module.css'
 import DpadAndConfirmButtonsContainer from './DpadAndConfirmButtonsContainer'
 import SlimButtonsContainer from './SlimButtonsContainer'
-import { useRef, useState, useCallback } from 'react'
-import Image from 'next/image'
-import placeHolderImage from '/public/noMatch.png'
+import { useRef, useState, useCallback, useEffect } from 'react'
 
 
 export default function BackgroundComponent() {
@@ -16,7 +14,7 @@ export default function BackgroundComponent() {
     types: [],
     stats: {}
   })
-
+ 
   const upperCasedWord = useCallback((value) => {
     let valueNow = value
     if (valueNow !== undefined) {
@@ -31,20 +29,32 @@ export default function BackgroundComponent() {
     try {
       const getData = await fetch(`https://pokeapi.co/api/v2/pokemon/${lowerCasedValue}`)
       const convertToJson = await getData.json()
-      //setCurrentPokemonStats(convertToJson)
+      //this is the line that Ronni Commented out
+      setCurrentPokemonStats(
+        {
+          name: convertToJson.name,
+          abilities: convertToJson.abilities,
+          types: convertToJson.types
+        }
+      )
       const getPokemonSprite = convertToJson.sprites.front_default
       setCurrentPokemonPicture(getPokemonSprite)
       console.log(getPokemonSprite)
-
+      {
+        
       // capturing pokemon information
-      convertToJson.abilities.forEach(element => {
-        currentPokemonStats.abilities.push(element.ability.name)
-      });
-      convertToJson.types.forEach(element => {
-        currentPokemonStats.types.push(element.type.name)
-      });
-      currentPokemonStats.stats = convertToJson.stats
-      currentPokemonStats.name = convertToJson.name
+      // const pokemonAbilities = [];
+      // const pokemonTypes = [];
+      // convertToJson.abilities.forEach(element => {
+      //   pokemonAbilities.push(element.ability.name)
+      // });
+      // convertToJson.types.forEach(element => {
+      //   pokemonTypes.push(element.type.name)
+      // });
+      // currentPokemonStats.stats = convertToJson.stats
+      // currentPokemonStats.name = convertToJson.name
+      // setCurrentPokemonStats(convertToJson)
+      }
       console.log(currentPokemonStats)
       // -----------------------------------------
     }
@@ -55,10 +65,16 @@ export default function BackgroundComponent() {
     }
   })
   function PokemonDisplay({ imageToDisplay, type, pokeName }) {
+    const DivBasedOnTypes = (types) => {
+      // const typesArray = types.abilities.forEach(element => element.ability.name);
+      return (<div className={styles.pokemonType}>{`Type here`}</div>)
+
+    }
     return (
       <div className={styles.pokemonDisplayContainer}>
         <img draggable={false} src={imageToDisplay}></img>
-        <div className={styles.pokemonType}>{`${type[0]} ${type[1]}`}</div>
+        {/* <div className={styles.pokemonType}>{`${type[0]} ${type[1]}`}</div> */}
+        <DivBasedOnTypes types={type} />
         <div className={styles.pokemonName}>{pokeName}</div>
       </div>
     );
