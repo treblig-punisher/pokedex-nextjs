@@ -4,38 +4,43 @@
 * {
   margin: 0;
 }
+
 html,
 body {
   padding: 0;
   margin: 0;
-  height: 100%;
+  
+  height: 100dvh;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; 
     background: black;
        
     /* filter: blur(0px); */
 }
+/* html{
+  width: fit-content;
+} */
 @keyframes moving-background {
   0%{
      background-position: 0 0;
   }
   100%{
     background-position: 1000px -1000px;
-  }
-  
+  }  
 }
 body::before{
-  position: absolute;
+  position: fixed;
   content: '';
-  width: 100%;
-  height: 100%;
+  width: 100dvw;
+  /* height: 100vh; */
+  height: 100dvh;
   margin: 0;
   padding: 0;
   filter:blur(02px) opacity(10%);
   /* filter: opacity(10%); */
   background-repeat: repeat;
-  background-size: 200px;
   background-image:  url("/Pokeball.png");
+  background-size: 200px;
   animation: moving-background  10s linear infinite;
   /* overflow: hidden; */
 }

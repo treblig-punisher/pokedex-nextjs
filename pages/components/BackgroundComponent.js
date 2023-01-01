@@ -6,74 +6,113 @@ import { useRef, useState, useCallback, useEffect } from 'react'
 
 export default function BackgroundComponent() {
   const inputValComponent = useRef(null);
+  const [arrayOfAllPokemonObjects, setArrayOfAllPokemonObjects] = useState([])
+  // const [currentPokemonPicture, setCurrentPokemonPicture] = useState('')
+  const noMatchPicture = '/noMatch.png'
 
-  const [currentPokemonPicture, setCurrentPokemonPicture] = useState('')
   const [currentPokemonStats, setCurrentPokemonStats] = useState({
     name: '',
+    picture: '',
     abilities: [],
-    types: [],
-    stats: {}
+    types: "",
+    stats: {},
   })
- 
+
+  //this checks for locally stored cached pokemons 
+  useEffect(() => {
+    // localStorage.removeItem('cachedPokemonsArray')
+    if (localStorage.getItem('cachedPokemonsArray') === null) {
+      console.log('No cached pokemons')
+      return;
+    }
+    const localStoragePokemons = localStorage.getItem('cachedPokemonsArray')
+    const parsedPokemons = JSON.parse(localStoragePokemons)
+    console.log('cached pokemons loaded: ', parsedPokemons)
+    setArrayOfAllPokemonObjects(arrayOfAllPokemonObjects => [...arrayOfAllPokemonObjects, ...parsedPokemons])
+  }, [])
   const upperCasedWord = useCallback((value) => {
     let valueNow = value
-    if (valueNow !== undefined) {
-      const upperCasedWord = valueNow.slice(0, 1).toUpperCase() + valueNow.slice(1)
+    if (valueNow !== undefined && valueNow !== "") {
+      const upperCasedWord = (valueNow.slice(0, 1)).toUpperCase() + valueNow.slice(1)
       return upperCasedWord
     }
   })
   const submittedPokemon = useCallback(async () => {
     const currentValue = inputValComponent.current.value;
     const lowerCasedValue = currentValue.toLowerCase();
-
-    try {
-      const getData = await fetch(`https://pokeapi.co/api/v2/pokemon/${lowerCasedValue}`)
-      const convertToJson = await getData.json()
-      //this is the line that Ronni Commented out
-      setCurrentPokemonStats(
+    console.log('local array of pokemons: ', arrayOfAllPokemonObjects)
+    const tempPokemonObjects = [...arrayOfAllPokemonObjects]
+    if (tempPokemonObjects.find(pokemon => pokemon.name === lowerCasedValue)) {
+      const getAllPokemons = [...arrayOfAllPokemonObjects]
+      const foundCachedPokemon = getAllPokemons.filter(cachedPokemon => cachedPokemon.name === lowerCasedValue)[0]
+      console.log('array of all pokemon objects, found cached pokemon: ', foundCachedPokemon);
+      setCurrentPokemonStats(currentPokemonStats => ({ ...currentPokemonStats, foundCachedPokemon }))
+    }
+    else {
+      try {
+        const getPokemonData = await fetch(`https://pokeapi.co/api/v2/pokemon/${lowerCasedValue}`)
+        const foundPokemon = await getPokemonData.json()
+        console.log('pokemon fetched: ', foundPokemon)
+        const foundPokemonStats =
         {
-          name: convertToJson.name,
-          abilities: convertToJson.abilities,
-          types: convertToJson.types
+          name: foundPokemon.name,
+          picture: foundPokemon.sprites.front_default,
+          abilities: [],
+          types: foundPokemon.types[0].type.name,
+          stats: {},
         }
-      )
-      const getPokemonSprite = convertToJson.sprites.front_default
-      setCurrentPokemonPicture(getPokemonSprite)
-      console.log(getPokemonSprite)
-      {
-        
-      // capturing pokemon information
-      // const pokemonAbilities = [];
-      // const pokemonTypes = [];
-      // convertToJson.abilities.forEach(element => {
-      //   pokemonAbilities.push(element.ability.name)
-      // });
-      // convertToJson.types.forEach(element => {
-      //   pokemonTypes.push(element.type.name)
-      // });
-      // currentPokemonStats.stats = convertToJson.stats
-      // currentPokemonStats.name = convertToJson.name
-      // setCurrentPokemonStats(convertToJson)
+        setArrayOfAllPokemonObjects(arrayOfAllPokemonObjects => [...arrayOfAllPokemonObjects, foundPokemonStats])
+        // console.log('new pokemon array: ', arrayOfAllPokemonObjects);
+        setCurrentPokemonStats(
+          currentPokemonStats =>
+          (
+            {
+              ...currentPokemonStats,
+              ...foundPokemonStats
+            }
+          )
+        )
+        console.log(arrayOfAllPokemonObjects)
+        localStorage.setItem('cachedPokemonsArray', JSON.stringify(arrayOfAllPokemonObjects))
       }
-      console.log(currentPokemonStats)
-      // -----------------------------------------
+      catch (err) {
+        console.log(`Error, no pokemon found: ${err}`)
+        const foundPokemonStats = {
+          name: '',
+          picture: noMatchPicture,
+          abilities: [],
+          types: "",
+          stats: {},
+
+        }
+        setCurrentPokemonStats(
+          currentPokemonStats =>
+          (
+            {
+              ...currentPokemonStats,
+              ...foundPokemonStats
+            }
+          )
+
+        )
+      }
+
     }
-    catch (err) {
-      console.log(err + "pokemon not found")
-      setCurrentPokemonPicture('/noMatch.png');
-      setCurrentPokemonStats({});
-    }
+
   })
+  
+
   function PokemonDisplay({ imageToDisplay, type, pokeName }) {
-    const DivBasedOnTypes = (types) => {
+    const DivBasedOnTypes = ({ types }) => {
       // const typesArray = types.abilities.forEach(element => element.ability.name);
-      return (<div className={styles.pokemonType}>{`Type here`}</div>)
+      const name = 'arrayOfAllPokemonObjects'
+      return (<div className={styles.pokemonType}>{types}</div>)
 
     }
     return (
       <div className={styles.pokemonDisplayContainer}>
         <img draggable={false} src={imageToDisplay}></img>
-        {/* <div className={styles.pokemonType}>{`${type[0]} ${type[1]}`}</div> */}
+
         <DivBasedOnTypes types={type} />
         <div className={styles.pokemonName}>{pokeName}</div>
       </div>
@@ -84,8 +123,8 @@ export default function BackgroundComponent() {
     <div className={styles.bgImage}>
       {/* <PokemonDisplayContainer image={currentPokemonPicture} /> */}
       <PokemonDisplay
-        imageToDisplay={currentPokemonPicture}
-        type={currentPokemonStats.types}
+        imageToDisplay={currentPokemonStats.picture}
+        type={upperCasedWord(currentPokemonStats.types)}
         pokeName={upperCasedWord(currentPokemonStats.name)}
       />
       <DpadAndConfirmButtonsContainer buttonClickedFunction={submittedPokemon} />

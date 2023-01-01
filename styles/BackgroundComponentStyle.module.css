@@ -1,7 +1,9 @@
 .bgImage{
     display: flex;
-    margin: 0;
-    padding: 0;
+    /* margin: 0;
+    padding: 0; */
+    /* added 12/31/2022 5:54pm Saturday */
+    margin-inline: auto;
     width: 296px;
     scale: 1;
     /* height: 600px; */
@@ -18,10 +20,11 @@
     --containerWidth: 148px;
     --containerHeight: 130px;
     display: flex;
-    position: absolute;
+    position: fixed;
     justify-content: center;
     width:  var(--containerWidth);
     height: var(--containerHeight); 
+    overflow-x: hidden;
     /* outline: solid aqua 2px; */
     /* z-index: 100; */
 
@@ -30,6 +33,8 @@
 .pokemonType{
     display: flex;
     position: absolute;
+    max-width: inherit;
+    
 }
 @keyframes animatedPokemonName{
     0%{
