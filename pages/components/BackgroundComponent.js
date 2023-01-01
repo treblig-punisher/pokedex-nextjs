@@ -23,13 +23,14 @@ export default function BackgroundComponent() {
     // localStorage.removeItem('cachedPokemonsArray')
     if (localStorage.getItem('cachedPokemonsArray') === null) {
       console.log('No cached pokemons')
-      return;
+      return ;
     }
     const localStoragePokemons = localStorage.getItem('cachedPokemonsArray')
     const parsedPokemons = JSON.parse(localStoragePokemons)
     console.log('cached pokemons loaded: ', parsedPokemons)
-    setArrayOfAllPokemonObjects(arrayOfAllPokemonObjects => [...arrayOfAllPokemonObjects, ...parsedPokemons])
+    setArrayOfAllPokemonObjects([...arrayOfAllPokemonObjects, ...parsedPokemons])
   }, [])
+
   const upperCasedWord = useCallback((value) => {
     let valueNow = value
     if (valueNow !== undefined && valueNow !== "") {
@@ -40,19 +41,17 @@ export default function BackgroundComponent() {
   const submittedPokemon = useCallback(async () => {
     const currentValue = inputValComponent.current.value;
     const lowerCasedValue = currentValue.toLowerCase();
-    console.log('local array of pokemons: ', arrayOfAllPokemonObjects)
+    
     const tempPokemonObjects = [...arrayOfAllPokemonObjects]
     if (tempPokemonObjects.find(pokemon => pokemon.name === lowerCasedValue)) {
       const getAllPokemons = [...arrayOfAllPokemonObjects]
       const foundCachedPokemon = getAllPokemons.filter(cachedPokemon => cachedPokemon.name === lowerCasedValue)[0]
-      console.log('array of all pokemon objects, found cached pokemon: ', foundCachedPokemon);
-      setCurrentPokemonStats(currentPokemonStats => ({ ...currentPokemonStats, foundCachedPokemon }))
+      setCurrentPokemonStats(currentPokemonStats=>({ ...currentPokemonStats, ...foundCachedPokemon }))
     }
     else {
       try {
         const getPokemonData = await fetch(`https://pokeapi.co/api/v2/pokemon/${lowerCasedValue}`)
         const foundPokemon = await getPokemonData.json()
-        console.log('pokemon fetched: ', foundPokemon)
         const foundPokemonStats =
         {
           name: foundPokemon.name,
@@ -61,22 +60,19 @@ export default function BackgroundComponent() {
           types: foundPokemon.types[0].type.name,
           stats: {},
         }
-        setArrayOfAllPokemonObjects(arrayOfAllPokemonObjects => [...arrayOfAllPokemonObjects, foundPokemonStats])
-        // console.log('new pokemon array: ', arrayOfAllPokemonObjects);
-        setCurrentPokemonStats(
-          currentPokemonStats =>
-          (
-            {
-              ...currentPokemonStats,
-              ...foundPokemonStats
-            }
-          )
-        )
-        console.log(arrayOfAllPokemonObjects)
-        localStorage.setItem('cachedPokemonsArray', JSON.stringify(arrayOfAllPokemonObjects))
+        setArrayOfAllPokemonObjects([...arrayOfAllPokemonObjects, foundPokemonStats])
+        
+        setCurrentPokemonStats(currentPokemonStats=>
+          
+          ({
+            ...currentPokemonStats,
+            ...foundPokemonStats
+          })
+
+        )  
+        console.log('arrayOfAllPokemonObjects updated -Try block', arrayOfAllPokemonObjects)     
       }
       catch (err) {
-        console.log(`Error, no pokemon found: ${err}`)
         const foundPokemonStats = {
           name: '',
           picture: noMatchPicture,
@@ -98,16 +94,17 @@ export default function BackgroundComponent() {
       }
 
     }
-
+    
   })
-  
+  //show the array of objects updated
+  useEffect(()=>{
+    console.log('arrayOfAllPokemonObjects updated -useEffect', arrayOfAllPokemonObjects)
+    if(arrayOfAllPokemonObjects.length > 0) localStorage.setItem('cachedPokemonsArray', JSON.stringify(arrayOfAllPokemonObjects))
+  },[currentPokemonStats])
 
   function PokemonDisplay({ imageToDisplay, type, pokeName }) {
     const DivBasedOnTypes = ({ types }) => {
-      // const typesArray = types.abilities.forEach(element => element.ability.name);
-      const name = 'arrayOfAllPokemonObjects'
       return (<div className={styles.pokemonType}>{types}</div>)
-
     }
     return (
       <div className={styles.pokemonDisplayContainer}>
