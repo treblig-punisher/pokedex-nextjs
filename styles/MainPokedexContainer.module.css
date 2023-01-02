@@ -10,6 +10,7 @@
 .pokedexContainer{
     display: flex;
     /* position: relative; */
+    position: absolute;
     margin-inline: auto;
     /* justify-content: center; */
     width: 100dvw;
@@ -22,4 +23,33 @@
     animation-fill-mode: forwards;
     animation-duration: 1s;
 }
-
+@keyframes titleAnimation {
+    0%{
+        margin-top: 15dvh;
+        opacity: 0;
+    }
+    100%{
+        margin-top: 0;
+        opacity: 1;
+    }
+}
+.titleContainer{
+    display: flex;
+    position: fixed;   
+    width: 100dvw;
+    height: calc(100px + 20px);
+    top: 5dvh;
+    overflow: hidden;
+}
+.pokedexTitle{
+    display: flex;
+    color: aqua;
+    /* position: relative; */
+    font-weight: 700;
+    font-size: clamp(1.5rem, 10vw, 3rem);
+    margin-inline: auto;
+    animation-name: titleAnimation;
+    animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+    animation-fill-mode: forwards;
+    animation-duration: 1s;
+}

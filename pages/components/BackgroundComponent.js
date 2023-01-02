@@ -22,12 +22,12 @@ export default function BackgroundComponent() {
   useEffect(() => {
     // localStorage.removeItem('cachedPokemonsArray')
     if (localStorage.getItem('cachedPokemonsArray') === null) {
-      console.log('No cached pokemons')
+      // console.log('No cached pokemons')
       return ;
     }
     const localStoragePokemons = localStorage.getItem('cachedPokemonsArray')
     const parsedPokemons = JSON.parse(localStoragePokemons)
-    console.log('cached pokemons loaded: ', parsedPokemons)
+    // console.log('cached pokemons loaded: ', parsedPokemons)
     setArrayOfAllPokemonObjects([...arrayOfAllPokemonObjects, ...parsedPokemons])
   }, [])
 
@@ -70,7 +70,7 @@ export default function BackgroundComponent() {
           })
 
         )  
-        console.log('arrayOfAllPokemonObjects updated -Try block', arrayOfAllPokemonObjects)     
+        // console.log('arrayOfAllPokemonObjects updated -Try block', arrayOfAllPokemonObjects)     
       }
       catch (err) {
         const foundPokemonStats = {
@@ -98,7 +98,7 @@ export default function BackgroundComponent() {
   })
   //show the array of objects updated
   useEffect(()=>{
-    console.log('arrayOfAllPokemonObjects updated -useEffect', arrayOfAllPokemonObjects)
+    // console.log('arrayOfAllPokemonObjects updated -useEffect', arrayOfAllPokemonObjects)
     if(arrayOfAllPokemonObjects.length > 0) localStorage.setItem('cachedPokemonsArray', JSON.stringify(arrayOfAllPokemonObjects))
   },[currentPokemonStats])
 

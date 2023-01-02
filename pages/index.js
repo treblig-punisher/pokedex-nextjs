@@ -5,12 +5,17 @@ import BackgroundComponent from './components/BackgroundComponent'
 
 import MainPokedexContainer from '/styles/MainPokedexContainer.module.css'
 export default function Home() {
-  console.log("component mainpokedex container");
+
   return (
 
-    <div className={MainPokedexContainer.pokedexContainer}>
-      <BackgroundComponent />  
-    </div>
+    <>
+      <div className={MainPokedexContainer.titleContainer}>
+        <div className={MainPokedexContainer.pokedexTitle}>Pokedex</div>
+      </div>
+      <div className={MainPokedexContainer.pokedexContainer}>
+        <BackgroundComponent />
+      </div>
+    </>
   )
-  
+
 }
