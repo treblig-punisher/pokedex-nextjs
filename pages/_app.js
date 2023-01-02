@@ -4,7 +4,15 @@ function MyApp({ Component, pageProps }) {
   return(
     <>
        <Component {...pageProps} />
-       <Analytics />
+       <Analytics
+          beforeSend={(event) => {
+            // Ignore all events that have a `/private` inside the URL
+            if (event.url.includes('/private')) {
+              return null;
+            }
+            return event;
+          }}
+       />
     </>
   )
 }
