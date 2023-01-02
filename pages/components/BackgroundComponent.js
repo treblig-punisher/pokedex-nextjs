@@ -10,31 +10,14 @@ export default function BackgroundComponent() {
   // const [currentPokemonPicture, setCurrentPokemonPicture] = useState('')
   const noMatchPicture = '/noMatch.png'
 
-  const [currentPokemonStats, setCurrentPokemonStats] = useState({
-    name: '',
-    picture: '',
-    abilities: [],
-    types: "",
-    stats: {},
-  })
+  const [currentPokemonPicture, setCurrentPokemonPicture] = useState('')
+  const [currentPokemonStats, setCurrentPokemonStats] = useState({})
 
-  //this checks for locally stored cached pokemons 
-  useEffect(() => {
-    // localStorage.removeItem('cachedPokemonsArray')
-    if (localStorage.getItem('cachedPokemonsArray') === null) {
-      // console.log('No cached pokemons')
-      return ;
-    }
-    const localStoragePokemons = localStorage.getItem('cachedPokemonsArray')
-    const parsedPokemons = JSON.parse(localStoragePokemons)
-    // console.log('cached pokemons loaded: ', parsedPokemons)
-    setArrayOfAllPokemonObjects([...arrayOfAllPokemonObjects, ...parsedPokemons])
-  }, [])
-
-  const upperCasedWord = useCallback((value) => {
+  const upperCasedWord = useCallback((value)=>{
     let valueNow = value
-    if (valueNow !== undefined && valueNow !== "") {
-      const upperCasedWord = (valueNow.slice(0, 1)).toUpperCase() + valueNow.slice(1)
+    if(valueNow !== undefined)
+    {
+      const upperCasedWord = valueNow.slice(0, 1).toUpperCase() + valueNow.slice(1)
       return upperCasedWord
     }
   })
@@ -115,7 +98,7 @@ export default function BackgroundComponent() {
       </div>
     );
   }
-
+ 
   return (
     <div className={styles.bgImage}>
       {/* <PokemonDisplayContainer image={currentPokemonPicture} /> */}
@@ -123,7 +106,7 @@ export default function BackgroundComponent() {
         imageToDisplay={currentPokemonStats.picture}
         type={upperCasedWord(currentPokemonStats.types)}
         pokeName={upperCasedWord(currentPokemonStats.name)}
-      />
+       />
       <DpadAndConfirmButtonsContainer buttonClickedFunction={submittedPokemon} />
       <SlimButtonsContainer />
       <div className={styles.greenScreen}>
