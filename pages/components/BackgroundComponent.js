@@ -10,7 +10,7 @@ export default function BackgroundComponent() {
   // const [currentPokemonPicture, setCurrentPokemonPicture] = useState('')
   const noMatchPicture = '/noMatch.png'
 
-  const [currentPokemonPicture, setCurrentPokemonPicture] = useState('')
+  // const [currentPokemonPicture, setCurrentPokemonPicture] = useState('')
   const [currentPokemonStats, setCurrentPokemonStats] = useState({})
 
   const upperCasedWord = useCallback((value)=>{
@@ -40,7 +40,7 @@ export default function BackgroundComponent() {
           name: foundPokemon.name,
           picture: foundPokemon.sprites.front_default,
           abilities: [],
-          types: foundPokemon.types[0].type.name,
+          types: foundPokemon.types,
           stats: {},
         }
         setArrayOfAllPokemonObjects([...arrayOfAllPokemonObjects, foundPokemonStats])
