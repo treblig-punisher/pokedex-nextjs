@@ -7,10 +7,7 @@ import { useRef, useState, useCallback, useEffect } from 'react'
 export default function BackgroundComponent() {
   const inputValComponent = useRef(null);
   const [arrayOfAllPokemonObjects, setArrayOfAllPokemonObjects] = useState([])
-  // const [currentPokemonPicture, setCurrentPokemonPicture] = useState('')
   const noMatchPicture = '/noMatch.png'
-
-  const [currentPokemonPicture, setCurrentPokemonPicture] = useState('')
   const [currentPokemonStats, setCurrentPokemonStats] = useState({})
 
   const upperCasedWord = useCallback((value)=>{
@@ -35,7 +32,7 @@ export default function BackgroundComponent() {
       try {
         const getPokemonData = await fetch(`https://pokeapi.co/api/v2/pokemon/${lowerCasedValue}`)
         const foundPokemon = await getPokemonData.json()
-        const pokemonTypes = (foundPokemon.types.map(value=> value.type.name)).join()
+        const pokemonTypes = (foundPokemon.types.map(value=> value.type.name)).join(' | ')
         const foundPokemonStats =
         {
           name: foundPokemon.name,
@@ -83,7 +80,10 @@ export default function BackgroundComponent() {
   //show the array of objects updated
   useEffect(()=>{
     // console.log('arrayOfAllPokemonObjects updated -useEffect', arrayOfAllPokemonObjects)
-    if(arrayOfAllPokemonObjects.length > 0) localStorage.setItem('cachedPokemonsArray', JSON.stringify(arrayOfAllPokemonObjects))
+    if(arrayOfAllPokemonObjects.length > 0)
+    {
+      localStorage.setItem('cachedPokemonsArray', JSON.stringify(arrayOfAllPokemonObjects))
+    }
   },[currentPokemonStats])
 
   function PokemonDisplay({ imageToDisplay, type, pokeName }) {

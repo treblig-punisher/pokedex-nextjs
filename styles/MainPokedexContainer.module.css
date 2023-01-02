@@ -48,6 +48,7 @@
     font-weight: 700;
     font-size: clamp(1.5rem, 10vw, 3rem);
     margin-inline: auto;
+    user-select: none;
     animation-name: titleAnimation;
     animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
     animation-fill-mode: forwards;
