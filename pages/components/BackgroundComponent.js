@@ -35,12 +35,13 @@ export default function BackgroundComponent() {
       try {
         const getPokemonData = await fetch(`https://pokeapi.co/api/v2/pokemon/${lowerCasedValue}`)
         const foundPokemon = await getPokemonData.json()
+        const pokemonTypes = (foundPokemon.types.map(value=> value.type.name)).join()
         const foundPokemonStats =
         {
           name: foundPokemon.name,
           picture: foundPokemon.sprites.front_default,
           abilities: [],
-          types: foundPokemon.types[0].type.name,
+          types: pokemonTypes,
           stats: {},
         }
         setArrayOfAllPokemonObjects([...arrayOfAllPokemonObjects, foundPokemonStats])
@@ -87,6 +88,7 @@ export default function BackgroundComponent() {
 
   function PokemonDisplay({ imageToDisplay, type, pokeName }) {
     const DivBasedOnTypes = ({ types }) => {
+      // const allTypes = types.map((val=> val.type.name + " "))
       return (<div className={styles.pokemonType}>{types}</div>)
     }
     return (
