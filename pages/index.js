@@ -11,8 +11,13 @@ export default function Home() {
     <>
       <Head>
         <link rel="icon" href="pokeball.ico"/>
-        <title>Pokedex by Gilbert Matos</title>
+        <title>Pokedex</title>
         <meta property= "og: title" content="Pokedex by Gilbert Matos" key="title"/>
+        <meta name="description" content="A web based pokedex that allows you to look up for pokemons." />
+        <meta name="twitter:site" content="@punisherx6"/>
+        <meta name="twitter:title" content="Punisherx6 web developer"/>
+        <meta name="twitter:description" content="Game/Web Dev and everything tech!"/>
+
       </Head>
       
       <div className={MainPokedexContainer.titleContainer}>
